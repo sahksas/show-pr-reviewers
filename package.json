@@ -1,0 +1,40 @@
+{
+  "name": "chrome-extension-typescript-starter",
+  "version": "1.0.0",
+  "description": "chrome-extension-typescript-starter",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --config webpack/webpack.dev.js --watch",
+    "build": "webpack --config webpack/webpack.prod.js",
+    "clean": "rimraf dist",
+    "test": "npx jest",
+    "style": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "author": "sahksas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahksas/chrome-extension-typescript-starter.git"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.1.27",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "copy-webpack-plugin": "^13.0.1",
+    "glob": "^11.0.3",
+    "jest": "^30.2.0",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.1.0",
+    "ts-jest": "^29.4.5",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-merge": "^6.0.1"
+  }
+}
