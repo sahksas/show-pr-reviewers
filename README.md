@@ -1,4 +1,4 @@
-# GitHub PR Reviewers
+# Show PR Reviewers
 
 A Chrome extension that displays requested reviewers on GitHub pull request list pages. Requires a GitHub Personal Access Token with `repo` scope.
 
@@ -15,7 +15,7 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ### Additional request
 
-- [sahksas/show-reviewers](https://github.com/sahksas/show-reviewers)
+- [sahksas/show-reviewers](https://github.com/sahksas/show-pr-reviewers)
 
 If you have any bugs or requests, please send us a pull request directly or message us!
 

@@ -1,7 +1,7 @@
 {
-  "name": "show-reviewers",
+  "name": "show-pr-reviewers",
   "version": "1.0.0",
-  "description": "show-reviewers",
+  "description": "show-pr-reviewers",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahksas/show-reviewers.git"
+    "url": "https://github.com/sahksas/show-pr-reviewers.git"
   },
   "dependencies": {
     "react": "^19.2.3",
