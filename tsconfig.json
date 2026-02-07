@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "es6",
+    "lib": ["ES2017", "DOM"],
     "moduleResolution": "bundler",
     "module": "ES6",
     "esModuleInterop": true,
