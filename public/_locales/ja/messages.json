@@ -162,11 +162,11 @@
     "description": "No cache to clear message"
   },
   "reviewersHeader": {
-    "message": "レビュアー",
+    "message": "Reviewers",
     "description": "Reviewers column header"
   },
   "requestedReviewerSingle": {
-    "message": "レビュー依頼: $NAME$",
+    "message": "Requested reviewer: $NAME$",
     "description": "Single reviewer tooltip",
     "placeholders": {
       "name": {
@@ -176,7 +176,7 @@
     }
   },
   "requestedReviewerTwo": {
-    "message": "レビュー依頼: $NAME1$ と $NAME2$",
+    "message": "Requested reviewers: $NAME1$ and $NAME2$",
     "description": "Two reviewers tooltip",
     "placeholders": {
       "name1": {
@@ -190,7 +190,7 @@
     }
   },
   "requestedReviewerMultiple": {
-    "message": "レビュー依頼: $NAMES$ と $LAST$",
+    "message": "Requested reviewers: $NAMES$ and $LAST$",
     "description": "Multiple reviewers tooltip",
     "placeholders": {
       "names": {
