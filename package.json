@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-typescript-starter",
+  "name": "show-reviewers",
   "version": "1.0.0",
-  "description": "chrome-extension-typescript-starter",
+  "description": "show-reviewers",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahksas/chrome-extension-typescript-starter.git"
+    "url": "https://github.com/sahksas/show-reviewers.git"
   },
   "dependencies": {
     "react": "^19.2.3",

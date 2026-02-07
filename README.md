@@ -1,68 +1,18 @@
-# Chrome Extension TypeScript Starter
+# GitHub PR Reviewers
 
-Chrome Extension, TypeScript and Visual Studio Code
+A Chrome extension that displays requested reviewers on GitHub pull request list pages. Requires a GitHub Personal Access Token with `repo` scope.
 
-## Prerequisites
+> [!IMPORTANT]
+> When using it for the first time, please reload the Github screen.
 
-* [node + npm](https://nodejs.org/) (Current Version)
+## Known Issues
 
-## Option
+## Release Notes
 
-* [Visual Studio Code](https://code.visualstudio.com/)
+### Additional request
 
-## Includes the following
+- [sahksas/show-reviewers](https://github.com/sahksas/show-reviewers)
 
-* TypeScript
-* Webpack
-* React
-* Jest
-* Example Code
-    * Chrome Storage
-    * Options Version 2
-    * content script
-    * count up badge number
-    * background
+If you have any bugs or requests, please send us a pull request directly or message us!
 
-## Project Structure
-
-* src/typescript: TypeScript source files
-* src/assets: static files
-* dist: Chrome Extension directory
-* dist/js: Generated JavaScript files
-
-## Setup
-
-```
-npm install
-```
-
-## Import as Visual Studio Code project
-
-...
-
-## Build
-
-```
-npm run build
-```
-
-## Build in watch mode
-
-### terminal
-
-```
-npm run watch
-```
-
-### Visual Studio Code
-
-Run watch mode.
-
-type `Ctrl + Shift + B`
-
-## Load extension to chrome
-
-Load `dist` directory
-
-## Test
-`npx jest` or `npm run test`
+---

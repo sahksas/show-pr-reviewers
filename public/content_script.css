@@ -1,0 +1,24 @@
+[data-reviewer-active="true"] {
+  flex: 0 0 32% !important;
+  max-width: 32% !important;
+}
+
+[data-reviewer-header="true"] {
+  font-size: 14px;
+  cursor: default;
+  display: inline-block;
+  padding-inline: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+[data-reviewer-header="true"][data-visible="true"] {
+  opacity: 1;
+}
+
+[data-reviewer-column="true"] .AvatarStack-body {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+[data-reviewer-column="true"][data-visible="true"] .AvatarStack-body {
+  opacity: 1;
+}
