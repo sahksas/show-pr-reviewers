@@ -199,13 +199,26 @@ async function injectReviewers(): Promise<void> {
   });
 }
 
+// Handle navigation (turbo events)
+function handleNavigation(): void {
+  if (window.location.pathname.includes("/pulls")) {
+    setTimeout(injectReviewers, 100);
+  }
+}
+
 // Initialize
 function init(): void {
-  if (!window.location.pathname.includes("/pulls")) return;
+  // Listen for turbo navigation events (GitHub's SPA navigation)
+  document.addEventListener("turbo:render", handleNavigation);
 
-  injectReviewers();
+  // Also handle initial page load if we're on a /pulls page
+  if (window.location.pathname.includes("/pulls")) {
+    injectReviewers();
+  }
 
+  // Watch for dynamic DOM changes (pagination, filters, etc.)
   new MutationObserver((mutations) => {
+    if (!window.location.pathname.includes("/pulls")) return;
     if (mutations.some((m) => m.addedNodes.length > 0)) {
       setTimeout(injectReviewers, 100);
     }
