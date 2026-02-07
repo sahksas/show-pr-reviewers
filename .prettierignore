@@ -1,0 +1,35 @@
+# dependencies
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+
+# production
+build/
+dist/
+
+# misc
+.DS_Store
+*.log
+
+# claude specific
+.claude/
+
+# temporary files
+*.tmp
+*.swp
+
+# Claude.md
+CLAUDE.md
+
+# Coverage
+coverage/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# External assets
+squarespace/
+
+# VSCode settings
+.vscode/
