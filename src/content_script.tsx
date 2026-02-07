@@ -12,7 +12,8 @@ interface ReviewerResponse {
 
 // Constants
 const SELECTORS = {
-  prRow: '[id^="issue_"]:not([data-reviewer-processed]), .js-issue-row:not([data-reviewer-processed])',
+  prRow:
+    '[id^="issue_"]:not([data-reviewer-processed]), .js-issue-row:not([data-reviewer-processed])',
   prLink: 'a[id^="issue_"][href*="/pull/"]',
   rightSection: ".flex-shrink-0.col-4.col-md-3.pt-2.text-right",
   columnSpan: ":scope > span.ml-2.flex-1.flex-shrink-0",
@@ -46,7 +47,8 @@ function getPRNumberFromRow(row: Element): number | null {
 // Tooltip text builder
 function buildTooltipText(names: string[]): string {
   if (names.length === 1) return `Requested reviewer: ${names[0]}`;
-  if (names.length === 2) return `Requested reviewers: ${names[0]} and ${names[1]}`;
+  if (names.length === 2)
+    return `Requested reviewers: ${names[0]} and ${names[1]}`;
   const last = names[names.length - 1];
   const rest = names.slice(0, -1).join(", ");
   return `Requested reviewers: ${rest} and ${last}`;
@@ -60,14 +62,22 @@ function createReviewerCell(reviewers: Reviewer[]): HTMLElement {
 
   const avatarStack = document.createElement("div");
   const countClass =
-    reviewers.length >= 3 ? "AvatarStack--three-plus" : reviewers.length === 2 ? "AvatarStack--two" : "";
+    reviewers.length >= 3
+      ? "AvatarStack--three-plus"
+      : reviewers.length === 2
+        ? "AvatarStack--two"
+        : "";
   avatarStack.className = `AvatarStack AvatarStack--right ${countClass}`.trim();
 
   const body = document.createElement("div");
-  body.className = "AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1";
+  body.className =
+    "AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1";
 
   if (reviewers.length > 0) {
-    body.setAttribute("aria-label", buildTooltipText(reviewers.map((r) => r.login)));
+    body.setAttribute(
+      "aria-label",
+      buildTooltipText(reviewers.map((r) => r.login))
+    );
     const basePath = window.location.pathname.replace(/\/$/, "");
 
     reviewers.slice(0, 3).forEach((reviewer) => {
@@ -97,9 +107,9 @@ function createReviewerCell(reviewers: Reviewer[]): HTMLElement {
 function injectReviewerHeader(): HTMLElement | null {
   if (document.querySelector(`[${DATA_ATTR.header}="true"]`)) return null;
 
-  const sortSummary = Array.from(document.querySelectorAll(SELECTORS.sortSummary)).find(
-    (s) => s.textContent?.trim() === "Sort",
-  );
+  const sortSummary = Array.from(
+    document.querySelectorAll(SELECTORS.sortSummary)
+  ).find((s) => s.textContent?.trim() === "Sort");
   const sortDetails = sortSummary?.closest("details");
   if (!sortDetails?.parentElement) return null;
 
@@ -113,7 +123,10 @@ function injectReviewerHeader(): HTMLElement | null {
 }
 
 // Inject column into row
-function injectReviewerColumn(row: Element, reviewers: Reviewer[]): HTMLElement | null {
+function injectReviewerColumn(
+  row: Element,
+  reviewers: Reviewer[]
+): HTMLElement | null {
   if (row.querySelector(`[${DATA_ATTR.column}="true"]`)) return null;
 
   const rightSection = row.querySelector(SELECTORS.rightSection);

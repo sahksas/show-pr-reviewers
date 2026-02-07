@@ -22,16 +22,22 @@ const Options = () => {
 
   const loadCacheInfo = async () => {
     const storage = await chrome.storage.local.get(null);
-    const cacheKeys = Object.keys(storage).filter((key) => key.startsWith("reviewers:"));
+    const cacheKeys = Object.keys(storage).filter((key) =>
+      key.startsWith("reviewers:")
+    );
 
     if (cacheKeys.length === 0) {
       setCacheInfo("No cached data");
     } else {
       const totalEntries = cacheKeys.reduce((acc, key) => {
-        const entry = storage[key] as { data?: Record<string, unknown> } | undefined;
+        const entry = storage[key] as
+          | { data?: Record<string, unknown> }
+          | undefined;
         return acc + Object.keys(entry?.data || {}).length;
       }, 0);
-      setCacheInfo(`${cacheKeys.length} repositories, ${totalEntries} PRs cached`);
+      setCacheInfo(
+        `${cacheKeys.length} repositories, ${totalEntries} PRs cached`
+      );
     }
   };
 
@@ -48,7 +54,9 @@ const Options = () => {
 
   const clearCache = async () => {
     const storage = await chrome.storage.local.get(null);
-    const cacheKeys = Object.keys(storage).filter((key) => key.startsWith("reviewers:"));
+    const cacheKeys = Object.keys(storage).filter((key) =>
+      key.startsWith("reviewers:")
+    );
 
     if (cacheKeys.length > 0) {
       await chrome.storage.local.remove(cacheKeys);
@@ -98,11 +106,21 @@ const Options = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", fontFamily: "system-ui, sans-serif" }}>
-      <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>GitHub PR Reviewers Settings</h1>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "600px",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+        GitHub PR Reviewers Settings
+      </h1>
 
       <section style={{ marginBottom: "30px" }}>
-        <h2 style={{ fontSize: "18px", marginBottom: "10px" }}>GitHub Personal Access Token</h2>
+        <h2 style={{ fontSize: "18px", marginBottom: "10px" }}>
+          GitHub Personal Access Token
+        </h2>
         <p style={{ color: "#666", fontSize: "14px", marginBottom: "10px" }}>
           Required to access the GitHub API. Create a token at{" "}
           <a
@@ -189,8 +207,18 @@ const Options = () => {
           style={{
             padding: "12px 16px",
             borderRadius: "6px",
-            backgroundColor: statusType === "success" ? "#dafbe1" : statusType === "error" ? "#ffebe9" : "#f6f8fa",
-            color: statusType === "success" ? "#1a7f37" : statusType === "error" ? "#cf222e" : "#24292f",
+            backgroundColor:
+              statusType === "success"
+                ? "#dafbe1"
+                : statusType === "error"
+                  ? "#ffebe9"
+                  : "#f6f8fa",
+            color:
+              statusType === "success"
+                ? "#1a7f37"
+                : statusType === "error"
+                  ? "#cf222e"
+                  : "#24292f",
             marginTop: "20px",
           }}
         >
@@ -206,5 +234,5 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <Options />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

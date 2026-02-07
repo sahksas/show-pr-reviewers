@@ -33,18 +33,30 @@ function getCacheKey(owner: string, repo: string): string {
 }
 
 // Get cached data
-async function getCachedData(owner: string, repo: string): Promise<CacheEntry | null> {
+async function getCachedData(
+  owner: string,
+  repo: string
+): Promise<CacheEntry | null> {
   const key = getCacheKey(owner, repo);
   const result = await chrome.storage.local.get(key);
   const entry = result[key];
-  if (entry && typeof entry === "object" && "timestamp" in entry && "data" in entry) {
+  if (
+    entry &&
+    typeof entry === "object" &&
+    "timestamp" in entry &&
+    "data" in entry
+  ) {
     return entry as CacheEntry;
   }
   return null;
 }
 
 // Set cached data
-async function setCachedData(owner: string, repo: string, data: Record<string, Reviewer[]>): Promise<void> {
+async function setCachedData(
+  owner: string,
+  repo: string,
+  data: Record<string, Reviewer[]>
+): Promise<void> {
   const key = getCacheKey(owner, repo);
   const entry: CacheEntry = {
     timestamp: Date.now(),
@@ -86,7 +98,7 @@ function buildGraphQLQuery(prNumbers: number[]): string {
         }
       }
     }
-  `,
+  `
     )
     .join("\n");
 
@@ -103,7 +115,7 @@ function buildGraphQLQuery(prNumbers: number[]): string {
 async function fetchReviewersFromAPI(
   owner: string,
   repo: string,
-  prNumbers: number[],
+  prNumbers: number[]
 ): Promise<Record<string, Reviewer[]>> {
   const token = await getGitHubToken();
   if (!token) {
@@ -142,7 +154,9 @@ async function fetchReviewersFromAPI(
       if (prData) {
         const reviewers: Reviewer[] = [];
         prData.reviewRequests?.nodes?.forEach(
-          (node: { requestedReviewer?: { login?: string; avatarUrl?: string } }) => {
+          (node: {
+            requestedReviewer?: { login?: string; avatarUrl?: string };
+          }) => {
             const reviewer = node.requestedReviewer;
             if (reviewer && reviewer.login) {
               reviewers.push({
@@ -150,7 +164,7 @@ async function fetchReviewersFromAPI(
                 avatarUrl: reviewer.avatarUrl || "",
               });
             }
-          },
+          }
         );
         result[String(num)] = reviewers;
       }
@@ -161,7 +175,11 @@ async function fetchReviewersFromAPI(
 }
 
 // Main handler for getting reviewers (implements Stale-While-Revalidate)
-async function getReviewers(owner: string, repo: string, prNumbers: number[]): Promise<ReviewerResponse> {
+async function getReviewers(
+  owner: string,
+  repo: string,
+  prNumbers: number[]
+): Promise<ReviewerResponse> {
   // Try to get cached data first
   const cachedEntry = await getCachedData(owner, repo);
 
@@ -217,16 +235,18 @@ async function getReviewers(owner: string, repo: string, prNumbers: number[]): P
 }
 
 // Message listener
-chrome.runtime.onMessage.addListener((message: ReviewerRequest, _sender, sendResponse) => {
-  if (message.type === "GET_REVIEWERS") {
-    getReviewers(message.owner, message.repo, message.prNumbers)
-      .then(sendResponse)
-      .catch((error) => {
-        sendResponse({
-          success: false,
-          error: error instanceof Error ? error.message : "Unknown error",
+chrome.runtime.onMessage.addListener(
+  (message: ReviewerRequest, _sender, sendResponse) => {
+    if (message.type === "GET_REVIEWERS") {
+      getReviewers(message.owner, message.repo, message.prNumbers)
+        .then(sendResponse)
+        .catch((error) => {
+          sendResponse({
+            success: false,
+            error: error instanceof Error ? error.message : "Unknown error",
+          });
         });
-      });
-    return true; // Indicates we will send a response asynchronously
+      return true; // Indicates we will send a response asynchronously
+    }
   }
-});
+);

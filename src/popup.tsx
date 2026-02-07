@@ -25,11 +25,26 @@ const Popup = () => {
   };
 
   return (
-    <div style={{ width: "280px", padding: "16px", fontFamily: "system-ui, sans-serif" }}>
-      <h1 style={{ fontSize: "16px", margin: "0 0 16px 0" }}>GitHub PR Reviewers</h1>
+    <div
+      style={{
+        width: "280px",
+        padding: "16px",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      <h1 style={{ fontSize: "16px", margin: "0 0 16px 0" }}>
+        GitHub PR Reviewers
+      </h1>
 
       <div style={{ marginBottom: "16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "8px",
+          }}
+        >
           <span
             style={{
               width: "8px",
@@ -39,7 +54,11 @@ const Popup = () => {
             }}
           />
           <span style={{ fontSize: "14px" }}>
-            {tokenConfigured === null ? "Loading..." : tokenConfigured ? "Token configured" : "Token not configured"}
+            {tokenConfigured === null
+              ? "Loading..."
+              : tokenConfigured
+                ? "Token configured"
+                : "Token not configured"}
           </span>
         </div>
 
@@ -52,7 +71,9 @@ const Popup = () => {
               backgroundColor: isGitHubPR ? "#2da44e" : "#656d76",
             }}
           />
-          <span style={{ fontSize: "14px" }}>{isGitHubPR ? "On GitHub PR list page" : "Not on GitHub PR list"}</span>
+          <span style={{ fontSize: "14px" }}>
+            {isGitHubPR ? "On GitHub PR list page" : "Not on GitHub PR list"}
+          </span>
         </div>
       </div>
 
@@ -86,5 +107,5 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <Popup />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
