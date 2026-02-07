@@ -15,7 +15,7 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ### Additional request
 
-- [sahksas/show-reviewers](https://github.com/sahksas/show-pr-reviewers)
+- [sahksas/show-pr-reviewers](https://github.com/sahksas/show-pr-reviewers)
 
 If you have any bugs or requests, please send us a pull request directly or message us!
 
