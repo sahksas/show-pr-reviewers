@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
+const t = (key: string, substitutions?: string | string[]) =>
+  chrome.i18n.getMessage(key, substitutions);
+
 const Options = () => {
   const [token, setToken] = useState<string>("");
   const [status, setStatus] = useState<string>("");
@@ -27,7 +30,7 @@ const Options = () => {
     );
 
     if (cacheKeys.length === 0) {
-      setCacheInfo("No cached data");
+      setCacheInfo(t("noCachedData"));
     } else {
       const totalEntries = cacheKeys.reduce((acc, key) => {
         const entry = storage[key] as
@@ -36,14 +39,14 @@ const Options = () => {
         return acc + Object.keys(entry?.data || {}).length;
       }, 0);
       setCacheInfo(
-        `${cacheKeys.length} repositories, ${totalEntries} PRs cached`
+        t("cacheStats", [String(cacheKeys.length), String(totalEntries)])
       );
     }
   };
 
   const saveToken = () => {
     chrome.storage.sync.set({ githubToken: token }, () => {
-      setStatus("Token saved successfully!");
+      setStatus(t("tokenSavedSuccess"));
       setStatusType("success");
       setTimeout(() => {
         setStatus("");
@@ -60,11 +63,11 @@ const Options = () => {
 
     if (cacheKeys.length > 0) {
       await chrome.storage.local.remove(cacheKeys);
-      setStatus("Cache cleared!");
+      setStatus(t("cacheCleared"));
       setStatusType("success");
       loadCacheInfo();
     } else {
-      setStatus("No cache to clear");
+      setStatus(t("noCacheToClear"));
       setStatusType("");
     }
 
@@ -76,12 +79,12 @@ const Options = () => {
 
   const testToken = async () => {
     if (!token) {
-      setStatus("Please enter a token first");
+      setStatus(t("enterTokenFirst"));
       setStatusType("error");
       return;
     }
 
-    setStatus("Testing...");
+    setStatus(t("testing"));
     setStatusType("");
 
     try {
@@ -93,14 +96,16 @@ const Options = () => {
 
       if (response.ok) {
         const user = await response.json();
-        setStatus(`Token valid! Logged in as ${user.login}`);
+        setStatus(t("tokenValid", user.login));
         setStatusType("success");
       } else {
-        setStatus(`Token invalid: ${response.status} ${response.statusText}`);
+        setStatus(
+          t("tokenInvalid", [String(response.status), response.statusText])
+        );
         setStatusType("error");
       }
     } catch (error) {
-      setStatus(`Test failed: ${error}`);
+      setStatus(t("testFailed", String(error)));
       setStatusType("error");
     }
   };
@@ -114,31 +119,31 @@ const Options = () => {
       }}
     >
       <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
-        GitHub PR Reviewers Settings
+        {t("settingsTitle")}
       </h1>
 
       <section style={{ marginBottom: "30px" }}>
         <h2 style={{ fontSize: "18px", marginBottom: "10px" }}>
-          GitHub Personal Access Token
+          {t("tokenSectionTitle")}
         </h2>
         <p style={{ color: "#666", fontSize: "14px", marginBottom: "10px" }}>
-          Required to access the GitHub API. Create a token at{" "}
+          {t("tokenDescription")}{" "}
           <a
             href="https://github.com/settings/tokens"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "#0969da" }}
           >
-            GitHub Settings
+            {t("githubSettings")}
           </a>{" "}
-          with <code>repo</code> scope.
+          {t("withRepoScope", "repo")}
         </p>
         <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
           <input
             type="password"
             value={token}
             onChange={(e) => setToken(e.target.value)}
-            placeholder="ghp_xxxxxxxxxxxx"
+            placeholder={t("tokenPlaceholder")}
             style={{
               flex: 1,
               padding: "8px 12px",
@@ -161,7 +166,7 @@ const Options = () => {
               fontSize: "14px",
             }}
           >
-            Save Token
+            {t("saveToken")}
           </button>
           <button
             onClick={testToken}
@@ -175,15 +180,17 @@ const Options = () => {
               fontSize: "14px",
             }}
           >
-            Test Token
+            {t("testToken")}
           </button>
         </div>
       </section>
 
       <section style={{ marginBottom: "30px" }}>
-        <h2 style={{ fontSize: "18px", marginBottom: "10px" }}>Cache</h2>
+        <h2 style={{ fontSize: "18px", marginBottom: "10px" }}>
+          {t("cacheSectionTitle")}
+        </h2>
         <p style={{ color: "#666", fontSize: "14px", marginBottom: "10px" }}>
-          Reviewer data is cached for 5 minutes to reduce API calls.
+          {t("cacheDescription")}
         </p>
         <p style={{ marginBottom: "10px" }}>{cacheInfo}</p>
         <button
@@ -198,7 +205,7 @@ const Options = () => {
             fontSize: "14px",
           }}
         >
-          Clear Cache
+          {t("clearCache")}
         </button>
       </section>
 

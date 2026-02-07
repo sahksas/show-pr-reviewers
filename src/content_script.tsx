@@ -1,3 +1,7 @@
+// i18n helper
+const t = (key: string, substitutions?: string | string[]) =>
+  chrome.i18n.getMessage(key, substitutions);
+
 // Types
 interface Reviewer {
   login: string;
@@ -46,12 +50,11 @@ function getPRNumberFromRow(row: Element): number | null {
 
 // Tooltip text builder
 function buildTooltipText(names: string[]): string {
-  if (names.length === 1) return `Requested reviewer: ${names[0]}`;
-  if (names.length === 2)
-    return `Requested reviewers: ${names[0]} and ${names[1]}`;
+  if (names.length === 1) return t("requestedReviewerSingle", names[0]);
+  if (names.length === 2) return t("requestedReviewerTwo", [names[0], names[1]]);
   const last = names[names.length - 1];
   const rest = names.slice(0, -1).join(", ");
-  return `Requested reviewers: ${rest} and ${last}`;
+  return t("requestedReviewerMultiple", [rest, last]);
 }
 
 // Create reviewer cell element
@@ -116,7 +119,7 @@ function injectReviewerHeader(): HTMLElement | null {
   const header = document.createElement("span");
   header.className = "color-fg-muted";
   header.setAttribute(DATA_ATTR.header, "true");
-  header.textContent = "Reviewers";
+  header.textContent = t("reviewersHeader");
 
   sortDetails.parentElement.insertBefore(header, sortDetails);
   return header;
@@ -230,3 +233,5 @@ if (document.readyState === "loading") {
 } else {
   init();
 }
+
+export {};

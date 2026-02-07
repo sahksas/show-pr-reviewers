@@ -1,0 +1,230 @@
+{
+  "extName": {
+    "message": "Show PR Reviewers",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "GitHub PR 一覧ページにレビュアーを表示します",
+    "description": "Extension description"
+  },
+  "popupTitle": {
+    "message": "GitHub PR レビュアー",
+    "description": "Popup title"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "description": "Loading state text"
+  },
+  "tokenConfigured": {
+    "message": "トークン設定済み",
+    "description": "Token is configured"
+  },
+  "tokenNotConfigured": {
+    "message": "トークン未設定",
+    "description": "Token is not configured"
+  },
+  "onGitHubPRList": {
+    "message": "GitHub PR 一覧ページにいます",
+    "description": "Currently on a GitHub PR list page"
+  },
+  "notOnGitHubPRList": {
+    "message": "GitHub PR 一覧ページではありません",
+    "description": "Not on a GitHub PR list page"
+  },
+  "configureTokenMessage": {
+    "message": "PR 一覧ページでレビュアーを表示するには、GitHub トークンを設定してください。",
+    "description": "Message to configure token"
+  },
+  "openSettings": {
+    "message": "設定を開く",
+    "description": "Open settings button"
+  },
+  "settingsTitle": {
+    "message": "設定",
+    "description": "Settings page title"
+  },
+  "tokenSectionTitle": {
+    "message": "GitHub 個人アクセストークン",
+    "description": "Token section title"
+  },
+  "tokenDescription": {
+    "message": "GitHub API にアクセスするために必要です。トークンは",
+    "description": "Token description text"
+  },
+  "githubSettings": {
+    "message": "GitHub 設定",
+    "description": "GitHub settings link text"
+  },
+  "withRepoScope": {
+    "message": "で $SCOPE$ スコープを付けて作成してください。",
+    "description": "With repo scope text",
+    "placeholders": {
+      "scope": {
+        "content": "$1",
+        "example": "repo"
+      }
+    }
+  },
+  "tokenPlaceholder": {
+    "message": "ghp_xxxxxxxxxxxx",
+    "description": "Token input placeholder"
+  },
+  "saveToken": {
+    "message": "トークンを保存",
+    "description": "Save token button"
+  },
+  "testToken": {
+    "message": "トークンをテスト",
+    "description": "Test token button"
+  },
+  "tokenSavedSuccess": {
+    "message": "トークンを保存しました！",
+    "description": "Token saved success message"
+  },
+  "enterTokenFirst": {
+    "message": "先にトークンを入力してください",
+    "description": "Enter token first message"
+  },
+  "testing": {
+    "message": "テスト中...",
+    "description": "Testing state text"
+  },
+  "tokenValid": {
+    "message": "トークンは有効です！ログインユーザー: $USER$",
+    "description": "Token valid message",
+    "placeholders": {
+      "user": {
+        "content": "$1",
+        "example": "username"
+      }
+    }
+  },
+  "tokenInvalid": {
+    "message": "トークンが無効です: $STATUS$ $STATUS_TEXT$",
+    "description": "Token invalid message",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "401"
+      },
+      "status_text": {
+        "content": "$2",
+        "example": "Unauthorized"
+      }
+    }
+  },
+  "testFailed": {
+    "message": "テスト失敗: $ERROR$",
+    "description": "Test failed message",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Network error"
+      }
+    }
+  },
+  "cacheSectionTitle": {
+    "message": "キャッシュ",
+    "description": "Cache section title"
+  },
+  "cacheDescription": {
+    "message": "API 呼び出しを減らすため、レビュアーのデータは5分間キャッシュされます。",
+    "description": "Cache description text"
+  },
+  "noCachedData": {
+    "message": "キャッシュデータなし",
+    "description": "No cached data message"
+  },
+  "cacheStats": {
+    "message": "$REPOS$ リポジトリ、$PRS$ PR をキャッシュ中",
+    "description": "Cache statistics",
+    "placeholders": {
+      "repos": {
+        "content": "$1",
+        "example": "5"
+      },
+      "prs": {
+        "content": "$2",
+        "example": "25"
+      }
+    }
+  },
+  "clearCache": {
+    "message": "キャッシュをクリア",
+    "description": "Clear cache button"
+  },
+  "cacheCleared": {
+    "message": "キャッシュをクリアしました！",
+    "description": "Cache cleared message"
+  },
+  "noCacheToClear": {
+    "message": "クリアするキャッシュがありません",
+    "description": "No cache to clear message"
+  },
+  "reviewersHeader": {
+    "message": "レビュアー",
+    "description": "Reviewers column header"
+  },
+  "requestedReviewerSingle": {
+    "message": "レビュー依頼: $NAME$",
+    "description": "Single reviewer tooltip",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "username"
+      }
+    }
+  },
+  "requestedReviewerTwo": {
+    "message": "レビュー依頼: $NAME1$ と $NAME2$",
+    "description": "Two reviewers tooltip",
+    "placeholders": {
+      "name1": {
+        "content": "$1",
+        "example": "user1"
+      },
+      "name2": {
+        "content": "$2",
+        "example": "user2"
+      }
+    }
+  },
+  "requestedReviewerMultiple": {
+    "message": "レビュー依頼: $NAMES$ と $LAST$",
+    "description": "Multiple reviewers tooltip",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "user1, user2"
+      },
+      "last": {
+        "content": "$2",
+        "example": "user3"
+      }
+    }
+  },
+  "errorTokenNotConfigured": {
+    "message": "GitHub トークンが設定されていません",
+    "description": "Error: token not configured"
+  },
+  "errorGitHubAPI": {
+    "message": "GitHub API エラー: $STATUS$",
+    "description": "GitHub API error",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "401"
+      }
+    }
+  },
+  "errorGraphQL": {
+    "message": "GraphQL エラー: $MESSAGE$",
+    "description": "GraphQL error",
+    "placeholders": {
+      "message": {
+        "content": "$1",
+        "example": "Invalid query"
+      }
+    }
+  }
+}

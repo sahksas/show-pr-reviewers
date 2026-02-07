@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
+const t = (key: string) => chrome.i18n.getMessage(key);
+
 const Popup = () => {
   const [tokenConfigured, setTokenConfigured] = useState<boolean | null>(null);
   const [currentURL, setCurrentURL] = useState<string>("");
@@ -33,7 +35,7 @@ const Popup = () => {
       }}
     >
       <h1 style={{ fontSize: "16px", margin: "0 0 16px 0" }}>
-        GitHub PR Reviewers
+        {t("popupTitle")}
       </h1>
 
       <div style={{ marginBottom: "16px" }}>
@@ -55,10 +57,10 @@ const Popup = () => {
           />
           <span style={{ fontSize: "14px" }}>
             {tokenConfigured === null
-              ? "Loading..."
+              ? t("loading")
               : tokenConfigured
-                ? "Token configured"
-                : "Token not configured"}
+                ? t("tokenConfigured")
+                : t("tokenNotConfigured")}
           </span>
         </div>
 
@@ -72,14 +74,14 @@ const Popup = () => {
             }}
           />
           <span style={{ fontSize: "14px" }}>
-            {isGitHubPR ? "On GitHub PR list page" : "Not on GitHub PR list"}
+            {isGitHubPR ? t("onGitHubPRList") : t("notOnGitHubPRList")}
           </span>
         </div>
       </div>
 
       {!tokenConfigured && tokenConfigured !== null && (
         <p style={{ fontSize: "12px", color: "#656d76", margin: "0 0 16px 0" }}>
-          Configure your GitHub token to display reviewers on PR list pages.
+          {t("configureTokenMessage")}
         </p>
       )}
 
@@ -96,7 +98,7 @@ const Popup = () => {
           fontSize: "14px",
         }}
       >
-        Open Settings
+        {t("openSettings")}
       </button>
     </div>
   );

@@ -1,0 +1,230 @@
+{
+  "extName": {
+    "message": "Show PR Reviewers",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Display reviewers on GitHub PR list pages",
+    "description": "Extension description"
+  },
+  "popupTitle": {
+    "message": "GitHub PR Reviewers",
+    "description": "Popup title"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "Loading state text"
+  },
+  "tokenConfigured": {
+    "message": "Token configured",
+    "description": "Token is configured"
+  },
+  "tokenNotConfigured": {
+    "message": "Token not configured",
+    "description": "Token is not configured"
+  },
+  "onGitHubPRList": {
+    "message": "On GitHub PR list page",
+    "description": "Currently on a GitHub PR list page"
+  },
+  "notOnGitHubPRList": {
+    "message": "Not on GitHub PR list",
+    "description": "Not on a GitHub PR list page"
+  },
+  "configureTokenMessage": {
+    "message": "Configure your GitHub token to display reviewers on PR list pages.",
+    "description": "Message to configure token"
+  },
+  "openSettings": {
+    "message": "Open Settings",
+    "description": "Open settings button"
+  },
+  "settingsTitle": {
+    "message": "GitHub PR Reviewers Settings",
+    "description": "Settings page title"
+  },
+  "tokenSectionTitle": {
+    "message": "GitHub Personal Access Token",
+    "description": "Token section title"
+  },
+  "tokenDescription": {
+    "message": "Required to access the GitHub API. Create a token at",
+    "description": "Token description text"
+  },
+  "githubSettings": {
+    "message": "GitHub Settings",
+    "description": "GitHub settings link text"
+  },
+  "withRepoScope": {
+    "message": "with $SCOPE$ scope.",
+    "description": "With repo scope text",
+    "placeholders": {
+      "scope": {
+        "content": "$1",
+        "example": "repo"
+      }
+    }
+  },
+  "tokenPlaceholder": {
+    "message": "ghp_xxxxxxxxxxxx",
+    "description": "Token input placeholder"
+  },
+  "saveToken": {
+    "message": "Save Token",
+    "description": "Save token button"
+  },
+  "testToken": {
+    "message": "Test Token",
+    "description": "Test token button"
+  },
+  "tokenSavedSuccess": {
+    "message": "Token saved successfully!",
+    "description": "Token saved success message"
+  },
+  "enterTokenFirst": {
+    "message": "Please enter a token first",
+    "description": "Enter token first message"
+  },
+  "testing": {
+    "message": "Testing...",
+    "description": "Testing state text"
+  },
+  "tokenValid": {
+    "message": "Token valid! Logged in as $USER$",
+    "description": "Token valid message",
+    "placeholders": {
+      "user": {
+        "content": "$1",
+        "example": "username"
+      }
+    }
+  },
+  "tokenInvalid": {
+    "message": "Token invalid: $STATUS$ $STATUS_TEXT$",
+    "description": "Token invalid message",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "401"
+      },
+      "status_text": {
+        "content": "$2",
+        "example": "Unauthorized"
+      }
+    }
+  },
+  "testFailed": {
+    "message": "Test failed: $ERROR$",
+    "description": "Test failed message",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Network error"
+      }
+    }
+  },
+  "cacheSectionTitle": {
+    "message": "Cache",
+    "description": "Cache section title"
+  },
+  "cacheDescription": {
+    "message": "Reviewer data is cached for 5 minutes to reduce API calls.",
+    "description": "Cache description text"
+  },
+  "noCachedData": {
+    "message": "No cached data",
+    "description": "No cached data message"
+  },
+  "cacheStats": {
+    "message": "$REPOS$ repositories, $PRS$ PRs cached",
+    "description": "Cache statistics",
+    "placeholders": {
+      "repos": {
+        "content": "$1",
+        "example": "5"
+      },
+      "prs": {
+        "content": "$2",
+        "example": "25"
+      }
+    }
+  },
+  "clearCache": {
+    "message": "Clear Cache",
+    "description": "Clear cache button"
+  },
+  "cacheCleared": {
+    "message": "Cache cleared!",
+    "description": "Cache cleared message"
+  },
+  "noCacheToClear": {
+    "message": "No cache to clear",
+    "description": "No cache to clear message"
+  },
+  "reviewersHeader": {
+    "message": "Reviewers",
+    "description": "Reviewers column header"
+  },
+  "requestedReviewerSingle": {
+    "message": "Requested reviewer: $NAME$",
+    "description": "Single reviewer tooltip",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "username"
+      }
+    }
+  },
+  "requestedReviewerTwo": {
+    "message": "Requested reviewers: $NAME1$ and $NAME2$",
+    "description": "Two reviewers tooltip",
+    "placeholders": {
+      "name1": {
+        "content": "$1",
+        "example": "user1"
+      },
+      "name2": {
+        "content": "$2",
+        "example": "user2"
+      }
+    }
+  },
+  "requestedReviewerMultiple": {
+    "message": "Requested reviewers: $NAMES$ and $LAST$",
+    "description": "Multiple reviewers tooltip",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "user1, user2"
+      },
+      "last": {
+        "content": "$2",
+        "example": "user3"
+      }
+    }
+  },
+  "errorTokenNotConfigured": {
+    "message": "GitHub token not configured",
+    "description": "Error: token not configured"
+  },
+  "errorGitHubAPI": {
+    "message": "GitHub API error: $STATUS$",
+    "description": "GitHub API error",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "401"
+      }
+    }
+  },
+  "errorGraphQL": {
+    "message": "GraphQL error: $MESSAGE$",
+    "description": "GraphQL error",
+    "placeholders": {
+      "message": {
+        "content": "$1",
+        "example": "Invalid query"
+      }
+    }
+  }
+}

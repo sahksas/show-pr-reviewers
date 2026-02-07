@@ -1,3 +1,7 @@
+// i18n helper
+const t = (key: string, substitutions?: string | string[]) =>
+  chrome.i18n.getMessage(key, substitutions);
+
 // Types
 interface Reviewer {
   login: string;
@@ -119,7 +123,7 @@ async function fetchReviewersFromAPI(
 ): Promise<Record<string, Reviewer[]>> {
   const token = await getGitHubToken();
   if (!token) {
-    throw new Error("GitHub token not configured");
+    throw new Error(t("errorTokenNotConfigured"));
   }
 
   const query = buildGraphQLQuery(prNumbers);
@@ -135,13 +139,13 @@ async function fetchReviewersFromAPI(
   });
 
   if (!response.ok) {
-    throw new Error(`GitHub API error: ${response.status}`);
+    throw new Error(t("errorGitHubAPI", String(response.status)));
   }
 
   const json = await response.json();
 
   if (json.errors) {
-    throw new Error(`GraphQL error: ${json.errors[0].message}`);
+    throw new Error(t("errorGraphQL", json.errors[0].message));
   }
 
   // Parse response into our format
@@ -250,3 +254,5 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+export {};
