@@ -36,7 +36,7 @@
     "service_worker": "js/background.js"
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "alarms"],
 
   "host_permissions": ["https://api.github.com/*", "https://github.com/*"],
 

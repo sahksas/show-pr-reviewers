@@ -29,6 +29,8 @@ interface ReviewerResponse {
 
 // Constants
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_CLEANUP_INTERVAL_MINUTES = 1; // Run cleanup every minute
+const CACHE_CLEANUP_ALARM_NAME = "cache-cleanup";
 const GRAPHQL_ENDPOINT = "https://api.github.com/graphql";
 
 // Generate cache key
@@ -72,6 +74,27 @@ async function setCachedData(
 // Check if cache is stale
 function isCacheStale(entry: CacheEntry): boolean {
   return Date.now() - entry.timestamp > CACHE_TTL_MS;
+}
+
+// Cleanup stale cache entries
+async function cleanupStaleCache(): Promise<void> {
+  const allData = await chrome.storage.local.get(null);
+  const keysToRemove: string[] = [];
+  const now = Date.now();
+
+  for (const [key, value] of Object.entries(allData)) {
+    if (key.startsWith("reviewers:") && value && typeof value === "object") {
+      const entry = value as CacheEntry;
+      if (entry.timestamp && now - entry.timestamp > CACHE_TTL_MS) {
+        keysToRemove.push(key);
+      }
+    }
+  }
+
+  if (keysToRemove.length > 0) {
+    await chrome.storage.local.remove(keysToRemove);
+    console.log(`Cleaned up ${keysToRemove.length} stale cache entries`);
+  }
 }
 
 // Get GitHub token from storage
@@ -254,5 +277,26 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+// Alarm listener for periodic cache cleanup
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === CACHE_CLEANUP_ALARM_NAME) {
+    cleanupStaleCache().catch(console.error);
+  }
+});
+
+// Setup cache cleanup on extension startup
+chrome.runtime.onStartup.addListener(() => {
+  cleanupStaleCache().catch(console.error);
+});
+
+// Setup periodic cache cleanup alarm
+chrome.alarms.create(CACHE_CLEANUP_ALARM_NAME, {
+  delayInMinutes: CACHE_CLEANUP_INTERVAL_MINUTES,
+  periodInMinutes: CACHE_CLEANUP_INTERVAL_MINUTES,
+});
+
+// Run cleanup immediately on service worker initialization
+cleanupStaleCache().catch(console.error);
 
 export {};
