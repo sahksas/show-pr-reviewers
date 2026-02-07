@@ -1,5 +1,7 @@
 # Show PR Reviewers
 
+![image](./images/screenshot.png)
+
 A Chrome extension that displays requested reviewers on GitHub pull request list pages. Requires a GitHub Personal Access Token with `repo` scope.
 
 > [!IMPORTANT]
