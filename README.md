@@ -21,4 +21,8 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 If you have any bugs or requests, please send us a pull request directly or message us!
 
----
+## Privacy Policy
+
+- Your GitHub Personal Access Token is stored locally and used only for GitHub API requests.
+- Reviewer data is cached locally for 5 minutes.
+- No data is collected, sold, or shared with third parties.
