@@ -4,7 +4,7 @@
 
   "name": "Show PR Reviewers",
   "description": "__MSG_extDescription__",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "icons": {
     "16": "icon16.png",
@@ -26,7 +26,10 @@
 
   "content_scripts": [
     {
-      "matches": ["https://github.com/*/*/pulls", "https://github.com/*/*/pulls?*"],
+      "matches": [
+        "https://github.com/*/*/pulls",
+        "https://github.com/*/*/pulls?*"
+      ],
       "js": ["js/vendor.js", "js/content_script.js"],
       "css": ["content_script.css"]
     }

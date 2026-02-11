@@ -11,6 +11,10 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ## Release Notes
 
+### 1.0.1
+
+- The feature's scope of impact has been limited to the Pull Request page.
+
 ### 1.0.0
 
 - Initial release
