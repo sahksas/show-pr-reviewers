@@ -71,11 +71,6 @@ async function setCachedData(
   await chrome.storage.local.set({ [key]: entry });
 }
 
-// Check if cache is stale
-function isCacheStale(entry: CacheEntry): boolean {
-  return Date.now() - entry.timestamp > CACHE_TTL_MS;
-}
-
 // Cleanup stale cache entries
 async function cleanupStaleCache(): Promise<void> {
   const allData = await chrome.storage.local.get(null);
@@ -201,11 +196,12 @@ async function fetchReviewersFromAPI(
   return result;
 }
 
-// Main handler for getting reviewers (implements Stale-While-Revalidate)
+// Main handler for getting reviewers (Cache + Always Revalidate)
 async function getReviewers(
   owner: string,
   repo: string,
-  prNumbers: number[]
+  prNumbers: number[],
+  tabId?: number
 ): Promise<ReviewerResponse> {
   // Try to get cached data first
   const cachedEntry = await getCachedData(owner, repo);
@@ -224,19 +220,25 @@ async function getReviewers(
       }
     }
 
-    if (hasAllData && !isCacheStale(cachedEntry)) {
-      // Cache is fresh and has all data
-      return { success: true, data: filteredCache, fromCache: true };
-    }
-
-    // Stale-While-Revalidate: Return stale data immediately, then update in background
     if (hasAllData) {
-      // Fire off background update (don't await)
+      // Always revalidate in background and push updates to tab
       fetchReviewersFromAPI(owner, repo, prNumbers)
         .then(async (newData) => {
-          // Merge with existing cache
           const merged = { ...cachedEntry.data, ...newData };
           await setCachedData(owner, repo, merged);
+
+          // Push update to tab if data changed
+          if (
+            tabId &&
+            JSON.stringify(filteredCache) !== JSON.stringify(newData)
+          ) {
+            chrome.tabs
+              .sendMessage(tabId, {
+                type: "UPDATE_REVIEWERS",
+                data: newData,
+              })
+              .catch(console.error);
+          }
         })
         .catch(console.error);
 
@@ -263,9 +265,9 @@ async function getReviewers(
 
 // Message listener
 chrome.runtime.onMessage.addListener(
-  (message: ReviewerRequest, _sender, sendResponse) => {
+  (message: ReviewerRequest, sender, sendResponse) => {
     if (message.type === "GET_REVIEWERS") {
-      getReviewers(message.owner, message.repo, message.prNumbers)
+      getReviewers(message.owner, message.repo, message.prNumbers, sender.tab?.id)
         .then(sendResponse)
         .catch((error) => {
           sendResponse({

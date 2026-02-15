@@ -146,6 +146,21 @@ function injectReviewerColumn(
   return cell;
 }
 
+// Update existing reviewer column in a row
+function updateReviewerColumn(row: Element, reviewers: Reviewer[]): void {
+  const existingColumn = row.querySelector(`[${DATA_ATTR.column}="true"]`);
+  if (existingColumn) {
+    const newCell = createReviewerCell(reviewers);
+    newCell.setAttribute(DATA_ATTR.visible, "true");
+    existingColumn.replaceWith(newCell);
+  } else {
+    const column = injectReviewerColumn(row, reviewers);
+    if (column) {
+      column.setAttribute(DATA_ATTR.visible, "true");
+    }
+  }
+}
+
 // Main injection function
 async function injectReviewers(): Promise<void> {
   const repoInfo = parseGitHubUrl();
@@ -211,6 +226,22 @@ function handleNavigation(): void {
 
 // Initialize
 function init(): void {
+  // Listen for pushed reviewer updates from background
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === "UPDATE_REVIEWERS" && message.data) {
+      const data = message.data as Record<string, Reviewer[]>;
+      const rows = document.querySelectorAll(
+        `[${DATA_ATTR.processed}="true"]`
+      );
+      rows.forEach((row) => {
+        const prNumber = getPRNumberFromRow(row);
+        if (prNumber && data[String(prNumber)]) {
+          updateReviewerColumn(row, data[String(prNumber)]);
+        }
+      });
+    }
+  });
+
   // Listen for turbo navigation events (GitHub's SPA navigation)
   document.addEventListener("turbo:render", handleNavigation);
 
