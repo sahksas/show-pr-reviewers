@@ -1,6 +1,6 @@
 {
   "name": "show-pr-reviewers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "show-pr-reviewers",
   "main": "index.js",
   "scripts": {

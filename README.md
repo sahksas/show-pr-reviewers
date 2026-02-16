@@ -11,6 +11,10 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ## Release Notes
 
+### 1.0.2
+
+- Reviewer data is now revalidated each time the PR list page is viewed, and the UI updates automatically if changes are detected.
+
 ### 1.0.1
 
 - The feature's scope of impact has been limited to the Pull Request page.
@@ -28,5 +32,5 @@ If you have any bugs or requests, please send us a pull request directly or mess
 ## Privacy Policy
 
 - Your GitHub Personal Access Token is stored locally and used only for GitHub API requests.
-- Reviewer data is cached locally for 5 minutes.
+- Reviewer data is cached locally and automatically revalidated on each page view.
 - No data is collected, sold, or shared with third parties.
