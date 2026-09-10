@@ -15,16 +15,14 @@
   opacity: 1;
 }
 
-[class*="MetadataContainer-module__container"] > [data-reviewer-column="true"] {
-  display: flex;
-  justify-content: flex-end;
+[data-reviewer-inline="true"] {
+  display: inline-flex;
   align-items: center;
-  width: 46px;
+  gap: 4px;
+  margin-left: 4px;
 }
-[class*="MetadataContainer-module__container"]
-  > [data-reviewer-column="true"]
-  .AvatarStack-body {
-  margin-top: 0 !important;
+[data-reviewer-inline="true"][hidden] {
+  display: none;
 }
 
 [data-reviewer-column="true"] .AvatarStack-body {

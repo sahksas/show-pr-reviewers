@@ -22,14 +22,14 @@ const SELECTORS = {
     'a[id^="issue_"][href*="/pull/"], [data-listview-item-title-container] a[href*="/pull/"]',
   rightSection: ".flex-shrink-0.col-4.col-md-3.pt-2.text-right",
   columnSpan: ":scope > span.ml-2.flex-1.flex-shrink-0",
-  metadataContainer: '[class*="MetadataContainer-module__container"]',
+  description: '[class*="Description-module__container"]',
   sortSummary: "summary.btn-link",
-  sortButton: 'button[aria-label^="Sort by"]',
 } as const;
 
 const DATA_ATTR = {
   processed: "data-reviewer-processed",
   column: "data-reviewer-column",
+  inline: "data-reviewer-inline",
   header: "data-reviewer-header",
   active: "data-reviewer-active",
   visible: "data-visible",
@@ -61,13 +61,16 @@ function buildTooltipText(names: string[]): string {
 }
 
 // Create reviewer cell element
-function createReviewerCell(
-  reviewers: Reviewer[],
-  className = "ml-2 flex-1 flex-shrink-0"
-): HTMLElement {
+function createReviewerCell(reviewers: Reviewer[], inline = false): HTMLElement {
   const wrapper = document.createElement("span");
-  wrapper.className = className;
   wrapper.setAttribute(DATA_ATTR.column, "true");
+  if (inline) {
+    wrapper.setAttribute(DATA_ATTR.inline, "true");
+    wrapper.hidden = reviewers.length === 0;
+    wrapper.append(`· ${t("reviewRequestedLabel")}`);
+  } else {
+    wrapper.className = "ml-2 flex-1 flex-shrink-0";
+  }
 
   const avatarStack = document.createElement("div");
   const countClass =
@@ -79,14 +82,16 @@ function createReviewerCell(
   avatarStack.className = `AvatarStack AvatarStack--right ${countClass}`.trim();
 
   const body = document.createElement("div");
-  body.className =
-    "AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1";
+  // The ListView row clips CSS tooltips (overflow: hidden), so the inline
+  // cell uses the native title tooltip instead.
+  body.className = inline
+    ? "AvatarStack-body"
+    : "AvatarStack-body tooltipped tooltipped-sw tooltipped-multiline tooltipped-align-right-1 mt-1";
 
   if (reviewers.length > 0) {
-    body.setAttribute(
-      "aria-label",
-      buildTooltipText(reviewers.map((r) => r.login))
-    );
+    const tooltip = buildTooltipText(reviewers.map((r) => r.login));
+    body.setAttribute("aria-label", tooltip);
+    if (inline) wrapper.title = tooltip;
     const basePath = window.location.pathname.replace(/\/$/, "");
 
     reviewers.slice(0, 3).forEach((reviewer) => {
@@ -119,17 +124,15 @@ function injectReviewerHeader(): HTMLElement | null {
   const sortSummary = Array.from(
     document.querySelectorAll(SELECTORS.sortSummary)
   ).find((s) => s.textContent?.trim() === "Sort");
-  const sortAnchor =
-    sortSummary?.closest("details") ??
-    document.querySelector(SELECTORS.sortButton)?.parentElement;
-  if (!sortAnchor?.parentElement) return null;
+  const sortDetails = sortSummary?.closest("details");
+  if (!sortDetails?.parentElement) return null;
 
   const header = document.createElement("span");
   header.className = "color-fg-muted";
   header.setAttribute(DATA_ATTR.header, "true");
   header.textContent = t("reviewersHeader");
 
-  sortAnchor.parentElement.insertBefore(header, sortAnchor);
+  sortDetails.parentElement.insertBefore(header, sortDetails);
   return header;
 }
 
@@ -142,10 +145,10 @@ function injectReviewerColumn(
 
   const rightSection = row.querySelector(SELECTORS.rightSection);
   if (!rightSection) {
-    const metadataContainer = row.querySelector(SELECTORS.metadataContainer);
-    if (!metadataContainer) return null;
-    const cell = createReviewerCell(reviewers, "");
-    metadataContainer.appendChild(cell);
+    const description = row.querySelector(SELECTORS.description);
+    if (!description) return null;
+    const cell = createReviewerCell(reviewers, true);
+    description.appendChild(cell);
     return cell;
   }
 
@@ -164,7 +167,10 @@ function injectReviewerColumn(
 function updateReviewerColumn(row: Element, reviewers: Reviewer[]): void {
   const existingColumn = row.querySelector(`[${DATA_ATTR.column}="true"]`);
   if (existingColumn) {
-    const newCell = createReviewerCell(reviewers, existingColumn.className);
+    const newCell = createReviewerCell(
+      reviewers,
+      existingColumn.hasAttribute(DATA_ATTR.inline)
+    );
     newCell.setAttribute(DATA_ATTR.visible, "true");
     existingColumn.replaceWith(newCell);
   } else {
@@ -173,6 +179,14 @@ function updateReviewerColumn(row: Element, reviewers: Reviewer[]): void {
       column.setAttribute(DATA_ATTR.visible, "true");
     }
   }
+}
+
+// React re-renders (e.g. switching display density) append GitHub's own nodes
+// after the inline cell, so move it back to the end of its line.
+function keepInlineCellsLast(): void {
+  document.querySelectorAll(`[${DATA_ATTR.inline}="true"]`).forEach((cell) => {
+    if (cell.nextSibling) cell.parentElement?.appendChild(cell);
+  });
 }
 
 // Main injection function
@@ -267,6 +281,7 @@ function init(): void {
   // Watch for dynamic DOM changes (pagination, filters, etc.)
   new MutationObserver((mutations) => {
     if (!window.location.pathname.includes("/pulls")) return;
+    keepInlineCellsLast();
     if (mutations.some((m) => m.addedNodes.length > 0)) {
       setTimeout(injectReviewers, 100);
     }

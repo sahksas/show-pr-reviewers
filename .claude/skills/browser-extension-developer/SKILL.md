@@ -34,7 +34,7 @@ dist/                    # Build output; load this directory as an unpacked exte
 GitHub serves two PR list DOMs, and `src/content_script.tsx` supports both through `SELECTORS`:
 
 - Classic Primer DOM: rows are `.js-issue-row`, reviewer cells go into the `.col-4.col-md-3` right section, and the header goes before the `Sort` details menu.
-- React ListView DOM: rows are `[data-listview-component="items-list"] > li`, reviewer cells go into the `MetadataContainer-module__container` element, and the header goes before the `Sort by` button.
+- React ListView DOM: rows are `[data-listview-component="items-list"] > li`, and a "Review requested" label with the avatar stack is appended to the `Description-module__container` line under the title. This DOM has no header, and the metadata columns on the right are left to GitHub because their layout differs between the comfortable and compact densities.
 
 Match React ListView elements by `data-*` attributes, `aria-label`, or the stable prefix of CSS module class names, because the hash suffix changes with each GitHub deployment. When GitHub changes the DOM, keep the selectors for every DOM that GitHub still serves.
 

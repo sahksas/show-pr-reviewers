@@ -165,6 +165,10 @@
     "message": "Reviewers",
     "description": "Reviewers column header"
   },
+  "reviewRequestedLabel": {
+    "message": "Review requested",
+    "description": "Label before reviewer avatars on the PR list"
+  },
   "requestedReviewerSingle": {
     "message": "Requested reviewer: $NAME$",
     "description": "Single reviewer tooltip",
