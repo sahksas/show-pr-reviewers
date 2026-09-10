@@ -13,7 +13,7 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ### 1.0.3
 
-- Supports the new GitHub pull request list UI while keeping support for the classic UI.
+- Supports the new GitHub pull request list UI, where requested reviewers are shown as a "Review requested" label with avatars in each pull request's detail line. The classic UI keeps the Reviewers column.
 
 ### 1.0.2
 
