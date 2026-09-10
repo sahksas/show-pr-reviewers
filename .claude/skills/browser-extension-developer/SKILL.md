@@ -1,36 +1,47 @@
 ---
 name: browser-extension-developer
-description: Use this skill when developing or maintaining browser extension code in the `browser/` directory, including Chrome/Firefox/Edge compatibility, content scripts, background scripts, or i18n updates.
+description: Use this skill when developing or maintaining the Show PR Reviewers browser extension in this repository, including the content script, background service worker, options and popup pages, manifest, styles, or i18n messages.
 ---
 
 # Browser Extension Developer
 
-Cross-browser extension (Chrome/Firefox/Edge) using **WXT framework** with Manifest V3. Injects "Repomix" button into GitHub repository pages.
+Chrome extension (Manifest V3, TypeScript, webpack) that adds a "Reviewers" column with requested-reviewer avatars to GitHub pull request list pages.
 
 ## Structure
 
 ```plaintext
-browser/
-├── entrypoints/       # background.ts, content.ts
-├── public/_locales/   # i18n (12 languages)
-├── wxt.config.ts      # WXT configuration
-└── .output/           # Built files (chrome-mv3, firefox-mv2)
+src/
+├── content_script.tsx   # Injects the header and reviewer cells into the PR list
+├── background.ts        # Service worker: GitHub GraphQL fetch and chrome.storage.local cache
+├── options.tsx          # Token settings page (React)
+└── popup.tsx            # Status popup (React)
+public/
+├── manifest.json
+├── content_script.css
+├── options.html, popup.html
+└── _locales/            # i18n (en, ja)
+dist/                    # Build output; load this directory as an unpacked extension
 ```
 
 ## Commands
 
-- `npm run dev` - Development mode (Chrome default)
-- `npm run dev:firefox` - Firefox dev mode
-- `npm run build-all` - Build all browsers
-- `npm run lint` / `npm run test`
+- `npx webpack --config webpack/webpack.prod.js` - Production build into `dist/`
+- `npx webpack --config webpack/webpack.dev.js --watch` - Development build with watch
+- `npx tsc --noEmit` - Type check
+
+## GitHub DOM
+
+GitHub serves two PR list DOMs, and `src/content_script.tsx` supports both through `SELECTORS`:
+
+- Classic Primer DOM: rows are `.js-issue-row`, reviewer cells go into the `.col-4.col-md-3` right section, and the header goes before the `Sort` details menu.
+- React ListView DOM: rows are `[data-listview-component="items-list"] > li`, reviewer cells go into the `MetadataContainer-module__container` element, and the header goes before the `Sort by` button.
+
+Match React ListView elements by `data-*` attributes, `aria-label`, or the stable prefix of CSS module class names, because the hash suffix changes with each GitHub deployment. When GitHub changes the DOM, keep the selectors for every DOM that GitHub still serves.
 
 ## i18n
 
-12 languages: en, ja, de, fr, es, pt_BR, id, vi, ko, zh_CN, zh_TW, hi
+Supported locales: en, ja. When adding a message key, add it to every `public/_locales/*/messages.json`.
 
-New language: Create `public/_locales/[code]/messages.json` with keys: appDescription, openWithRepomix
+## Verification
 
-## Notes
-
-- Chrome/Edge use `chrome.*` APIs, Firefox may need polyfills
-- Run lint and tests before completion
+Load `dist/` into Chromium and check the PR list page in a real browser for both DOM variants before reporting completion.

@@ -17,11 +17,14 @@ interface ReviewerResponse {
 // Constants
 const SELECTORS = {
   prRow:
-    '[id^="issue_"]:not([data-reviewer-processed]), .js-issue-row:not([data-reviewer-processed])',
-  prLink: 'a[id^="issue_"][href*="/pull/"]',
+    '[id^="issue_"]:not([data-reviewer-processed]), .js-issue-row:not([data-reviewer-processed]), [data-listview-component="items-list"] > li:not([data-reviewer-processed])',
+  prLink:
+    'a[id^="issue_"][href*="/pull/"], [data-listview-item-title-container] a[href*="/pull/"]',
   rightSection: ".flex-shrink-0.col-4.col-md-3.pt-2.text-right",
   columnSpan: ":scope > span.ml-2.flex-1.flex-shrink-0",
+  metadataContainer: '[class*="MetadataContainer-module__container"]',
   sortSummary: "summary.btn-link",
+  sortButton: 'button[aria-label^="Sort by"]',
 } as const;
 
 const DATA_ATTR = {
@@ -58,9 +61,12 @@ function buildTooltipText(names: string[]): string {
 }
 
 // Create reviewer cell element
-function createReviewerCell(reviewers: Reviewer[]): HTMLElement {
+function createReviewerCell(
+  reviewers: Reviewer[],
+  className = "ml-2 flex-1 flex-shrink-0"
+): HTMLElement {
   const wrapper = document.createElement("span");
-  wrapper.className = "ml-2 flex-1 flex-shrink-0";
+  wrapper.className = className;
   wrapper.setAttribute(DATA_ATTR.column, "true");
 
   const avatarStack = document.createElement("div");
@@ -113,15 +119,17 @@ function injectReviewerHeader(): HTMLElement | null {
   const sortSummary = Array.from(
     document.querySelectorAll(SELECTORS.sortSummary)
   ).find((s) => s.textContent?.trim() === "Sort");
-  const sortDetails = sortSummary?.closest("details");
-  if (!sortDetails?.parentElement) return null;
+  const sortAnchor =
+    sortSummary?.closest("details") ??
+    document.querySelector(SELECTORS.sortButton)?.parentElement;
+  if (!sortAnchor?.parentElement) return null;
 
   const header = document.createElement("span");
   header.className = "color-fg-muted";
   header.setAttribute(DATA_ATTR.header, "true");
   header.textContent = t("reviewersHeader");
 
-  sortDetails.parentElement.insertBefore(header, sortDetails);
+  sortAnchor.parentElement.insertBefore(header, sortAnchor);
   return header;
 }
 
@@ -133,7 +141,13 @@ function injectReviewerColumn(
   if (row.querySelector(`[${DATA_ATTR.column}="true"]`)) return null;
 
   const rightSection = row.querySelector(SELECTORS.rightSection);
-  if (!rightSection) return null;
+  if (!rightSection) {
+    const metadataContainer = row.querySelector(SELECTORS.metadataContainer);
+    if (!metadataContainer) return null;
+    const cell = createReviewerCell(reviewers, "");
+    metadataContainer.appendChild(cell);
+    return cell;
+  }
 
   const cell = createReviewerCell(reviewers);
   const spans = rightSection.querySelectorAll(SELECTORS.columnSpan);
@@ -150,7 +164,7 @@ function injectReviewerColumn(
 function updateReviewerColumn(row: Element, reviewers: Reviewer[]): void {
   const existingColumn = row.querySelector(`[${DATA_ATTR.column}="true"]`);
   if (existingColumn) {
-    const newCell = createReviewerCell(reviewers);
+    const newCell = createReviewerCell(reviewers, existingColumn.className);
     newCell.setAttribute(DATA_ATTR.visible, "true");
     existingColumn.replaceWith(newCell);
   } else {
