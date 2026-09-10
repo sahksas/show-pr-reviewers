@@ -11,6 +11,10 @@ A Chrome extension that displays requested reviewers on GitHub pull request list
 
 ## Release Notes
 
+### 1.0.3
+
+- Supports the new GitHub pull request list UI while keeping support for the classic UI.
+
 ### 1.0.2
 
 - Reviewer data is now revalidated each time the PR list page is viewed, and the UI updates automatically if changes are detected.
